@@ -3,3 +3,8 @@ Turku,3,7
 Vantaa,8,3
 Espoo,5,7
 Mogadishu,9,9
+Kouvostoliitto,9,1
+Jypikyla,4,4
+Kuopio,7,2
+Oulu,5,5
+

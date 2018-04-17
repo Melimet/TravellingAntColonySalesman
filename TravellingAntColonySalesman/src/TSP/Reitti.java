@@ -17,14 +17,20 @@ public class Reitti implements Comparable<Reitti>{
         }
         return vieraillut;
     }
-    public double getReitinPituus(){
-        return this.reitinPituus;
+    public int getListanKoko(){
+        return this.kuljettuReitti.size();
+    }
+    public ArrayList<Kaupunki> getKaupungit(){
+        return this.kuljettuReitti;
     }
     public void lisaaKaytyihin(Kaupunki kaupunki){
         if (!(this.kuljettuReitti.isEmpty())){
             reitinPituus+=kaupunki.laskeEtaisyys(kuljettuReitti.get(kuljettuReitti.size()-1));
         }
         this.kuljettuReitti.add(kaupunki);
+    }
+    public Kaupunki getNykyinenKaupunki(){
+        return this.kuljettuReitti.get(this.kuljettuReitti.size()-1);
     }
     @Override
     public String toString(){

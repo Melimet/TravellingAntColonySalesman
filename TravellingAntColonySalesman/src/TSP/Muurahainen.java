@@ -12,22 +12,43 @@ public class Muurahainen {
     private void lisaaKaytyihin(Kaupunki kaupunki){
         this.kuljettuReitti.lisaaKaytyihin(kaupunki);
     }
-    int indeksi;
-    public void liiku(ArrayList<Kaupunki> kaupungit){
-        int kierrokset=0;
-        while(kierrokset<kaupungit.size()){
 
-            Random r = new Random();
-            indeksi = r.nextInt(kaupungit.size());
-            if(!(this.kuljettuReitti.getVieraillutKaupungit().contains(kaupungit.get(indeksi).toString()))){
-                break;
-            }
-            kierrokset++;
-
+    public void liiku(ArrayList<Kaupunki> kaupungit, double pureRandom,double alpha, double beta){
+        int indeksi;
+        Random r = new Random();
+        double summa =0;
+        if (this.kuljettuReitti.getListanKoko() >= kaupungit.size()) {
+            lisaaKaytyihin(kaupungit.get(0));
+            return;
         }
+        if (r.nextDouble() < pureRandom  ) {
+            while (true) {
+                indeksi = r.nextInt(kaupungit.size());
+                if (!(this.kuljettuReitti.getVieraillutKaupungit().contains(kaupungit.get(indeksi).toString()))) {
+                    lisaaKaytyihin(kaupungit.get(indeksi));
+                    break;
+                }
 
-        lisaaKaytyihin(kaupungit.get(indeksi));
+            }
+        }else{
+            for(int x =0; x<kaupungit.size();x++){
+                if (!(this.kuljettuReitti.getVieraillutKaupungit().contains(kaupungit.get(x).toString()))) {
 
+                    summa += Math.pow(this.kuljettuReitti.getNykyinenKaupunki().getFeromoni(kaupungit.get(x)),alpha)
+                            *Math.pow(this.kuljettuReitti.getNykyinenKaupunki().laskeEtaisyys(kaupungit.get(x)),beta);
+                }
+            }
+            double satunnainenArvo = r.nextDouble()*summa;
+            double verrattavaSumma=0;
+            for (int x=0; x<kaupungit.size();x++){
+                verrattavaSumma += Math.pow(this.kuljettuReitti.getNykyinenKaupunki().getFeromoni(kaupungit.get(x)),alpha)
+                        *Math.pow(this.kuljettuReitti.getNykyinenKaupunki().laskeEtaisyys(kaupungit.get(x)),beta);
+                if(verrattavaSumma >= satunnainenArvo){
+                    lisaaKaytyihin(kaupungit.get(x));
+                    return;
+                }
+            }
+        }
     }
     public Reitti getValmisReitti(){
         return this.kuljettuReitti;
