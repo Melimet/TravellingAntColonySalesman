@@ -24,15 +24,14 @@ public class Muurahainen {
         if (r.nextDouble() < pureRandom  ) {
             while (true) {
                 indeksi = r.nextInt(kaupungit.size());
-                if (!(this.kuljettuReitti.getVieraillutKaupungit().contains(kaupungit.get(indeksi).toString()))) {
+                if (!(this.kuljettuReitti.onkoKayty(kaupungit.get(indeksi)))) {
                     lisaaKaytyihin(kaupungit.get(indeksi));
-                    break;
+                    return;
                 }
-
             }
         }else{
             for(int x =0; x<kaupungit.size();x++){
-                if (!(this.kuljettuReitti.getVieraillutKaupungit().contains(kaupungit.get(x).toString()))) {
+                if (!(this.kuljettuReitti.onkoKayty(kaupungit.get(x)))) {
 
                     summa += Math.pow(this.kuljettuReitti.getNykyinenKaupunki().getFeromoni(kaupungit.get(x)),alpha)
                             *Math.pow(this.kuljettuReitti.getNykyinenKaupunki().laskeEtaisyys(kaupungit.get(x)),beta);
@@ -41,11 +40,13 @@ public class Muurahainen {
             double satunnainenArvo = r.nextDouble()*summa;
             double verrattavaSumma=0;
             for (int x=0; x<kaupungit.size();x++){
-                verrattavaSumma += Math.pow(this.kuljettuReitti.getNykyinenKaupunki().getFeromoni(kaupungit.get(x)),alpha)
-                        *Math.pow(this.kuljettuReitti.getNykyinenKaupunki().laskeEtaisyys(kaupungit.get(x)),beta);
-                if(verrattavaSumma >= satunnainenArvo){
-                    lisaaKaytyihin(kaupungit.get(x));
-                    return;
+                if (!(this.kuljettuReitti.onkoKayty(kaupungit.get(x)))) {
+                    verrattavaSumma += Math.pow(this.kuljettuReitti.getNykyinenKaupunki().getFeromoni(kaupungit.get(x)),alpha)
+                            *Math.pow(this.kuljettuReitti.getNykyinenKaupunki().laskeEtaisyys(kaupungit.get(x)),beta);
+                    if(verrattavaSumma >= satunnainenArvo) {
+                        lisaaKaytyihin(kaupungit.get(x));
+                        return;
+                    }
                 }
             }
         }

@@ -7,7 +7,7 @@ public class Konsoli {
         this.lukija=scanner;
     }
     public void kaynnista(){
-        Ohjelma tsp= new Ohjelma("kaupunkienTestiFile.txt");
+        Ohjelma tsp= new Ohjelma("131pistetta.txt");
         tsp.simulaatio();
     }
 

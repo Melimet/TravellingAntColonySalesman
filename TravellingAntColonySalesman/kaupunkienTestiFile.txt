@@ -7,4 +7,3 @@ Kouvostoliitto,9,1
 Jypikyla,4,4
 Kuopio,7,2
 Oulu,5,5
-

@@ -23,13 +23,13 @@ public class Ohjelma {
         this.valmiitReitit=new ArrayList<>();
         this.parhaatReitit=new ArrayList<>();
         alustaKaupungit(tiedostoNimi);
-        this.maksimiKierrokset=500;
+        this.maksimiKierrokset=2000;
         this.kierrokset=0;
-        this.muurahaistenMaara=200;
+        this.muurahaistenMaara=300;
         this.feromoninAlkumaara=1;
-        this.pureRandom=0.05;
+        this.pureRandom=0.1;
         this.alpha=1;
-        this.beta=5;
+        this.beta=3;
     }
     public void simulaatio(){
         alustaFeromoni(this.feromoninAlkumaara);
@@ -52,7 +52,7 @@ public class Ohjelma {
         try(Scanner tiedostoLukija = new Scanner(new File(tiedostoNimi))){
             while(tiedostoLukija.hasNextLine()){
                 String rivi = tiedostoLukija.nextLine();
-                String[] sanat = rivi.split(",");
+                String[] sanat = rivi.split(" ");
                 Kaupunki kaupunki = new Kaupunki(sanat[0],Double.parseDouble(sanat[1]),Double.parseDouble(sanat[2]));
                 this.kaupungit.add(kaupunki);
             }

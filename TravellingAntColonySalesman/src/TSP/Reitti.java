@@ -32,6 +32,14 @@ public class Reitti implements Comparable<Reitti>{
     public Kaupunki getNykyinenKaupunki(){
         return this.kuljettuReitti.get(this.kuljettuReitti.size()-1);
     }
+    public boolean onkoKayty(Kaupunki kaupunki){ //Palauttaa true, jos ei käyty
+        for (Kaupunki verrattava: this.getKaupungit()){
+            if(kaupunki.equals(verrattava)){
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     public String toString(){
         return "Kuljettu reitti: "+kuljettuReitti.toString() +"\n kokonaispituus: "+this.reitinPituus;
