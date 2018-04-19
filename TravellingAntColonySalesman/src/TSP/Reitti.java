@@ -40,6 +40,9 @@ public class Reitti implements Comparable<Reitti>{
         }
         return false;
     }
+    public double getReitinPituus(){
+        return this.reitinPituus;
+    }
     @Override
     public String toString(){
         return "Kuljettu reitti: "+kuljettuReitti.toString() +"\n kokonaispituus: "+this.reitinPituus;

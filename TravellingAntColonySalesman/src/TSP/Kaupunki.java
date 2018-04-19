@@ -38,22 +38,28 @@ public class Kaupunki {
         int hash = 3;
         hash = 53*hash+(this.nimi != null ? this.nimi.hashCode():0);
         return hash;
-
-
     }
     @Override
     public String toString(){
         return this.nimi;
     }
-    public void lisaaFeromoni(Kaupunki kaupunki,double maara){
+    public void lisaaFeromoni(Kaupunki kaupunki,double maara,double maksimiFeromoni){
 
-        this.feromoniKaupunkiin.put(kaupunki,maara);
+        this.feromoniKaupunkiin.put(kaupunki, this.feromoniKaupunkiin.getOrDefault(kaupunki,0.0)+maara);
+
+        if(this.feromoniKaupunkiin.get(kaupunki) > maksimiFeromoni){
+            this.feromoniKaupunkiin.put(kaupunki,maksimiFeromoni);
+        }
     }
 
-    public void vahennaFeromonia(Double vahenevaKerroin){
+    public void vahennaFeromonia(Double vahenevaKerroin,double minimiFeromoni){
 
         for(Kaupunki kaupunki: this.feromoniKaupunkiin.keySet()) {
             this.feromoniKaupunkiin.put(kaupunki, this.feromoniKaupunkiin.get(kaupunki) * vahenevaKerroin);
+            if(this.feromoniKaupunkiin.get(kaupunki) < minimiFeromoni){
+                this.feromoniKaupunkiin.put(kaupunki,minimiFeromoni);
+            }
+
         }
     }
     public double getFeromoni(Kaupunki kaupunki){

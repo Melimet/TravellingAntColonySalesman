@@ -41,6 +41,7 @@ public class Muurahainen {
             double verrattavaSumma=0;
             for (int x=0; x<kaupungit.size();x++){
                 if (!(this.kuljettuReitti.onkoKayty(kaupungit.get(x)))) {
+
                     verrattavaSumma += Math.pow(this.kuljettuReitti.getNykyinenKaupunki().getFeromoni(kaupungit.get(x)),alpha)
                             *Math.pow(this.kuljettuReitti.getNykyinenKaupunki().laskeEtaisyys(kaupungit.get(x)),beta);
                     if(verrattavaSumma >= satunnainenArvo) {
