@@ -34,7 +34,7 @@ public class Muurahainen {
                 if (!(this.kuljettuReitti.onkoKayty(kaupungit.get(x)))) {
 
                     summa += Math.pow(this.kuljettuReitti.getNykyinenKaupunki().getFeromoni(kaupungit.get(x)),alpha)
-                            *Math.pow(this.kuljettuReitti.getNykyinenKaupunki().laskeEtaisyys(kaupungit.get(x)),beta);
+                            *Math.pow(1.0 / this.kuljettuReitti.getNykyinenKaupunki().laskeEtaisyys(kaupungit.get(x)),beta);
                 }
             }
             double satunnainenArvo = r.nextDouble()*summa;
@@ -43,7 +43,7 @@ public class Muurahainen {
                 if (!(this.kuljettuReitti.onkoKayty(kaupungit.get(x)))) {
 
                     verrattavaSumma += Math.pow(this.kuljettuReitti.getNykyinenKaupunki().getFeromoni(kaupungit.get(x)),alpha)
-                            *Math.pow(this.kuljettuReitti.getNykyinenKaupunki().laskeEtaisyys(kaupungit.get(x)),beta);
+                            *Math.pow(1.0 / this.kuljettuReitti.getNykyinenKaupunki().laskeEtaisyys(kaupungit.get(x)),beta);
                     if(verrattavaSumma >= satunnainenArvo) {
                         lisaaKaytyihin(kaupungit.get(x));
                         return;

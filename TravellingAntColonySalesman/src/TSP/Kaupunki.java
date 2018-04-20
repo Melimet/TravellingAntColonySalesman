@@ -44,7 +44,6 @@ public class Kaupunki {
         return this.nimi;
     }
     public void lisaaFeromoni(Kaupunki kaupunki,double maara,double maksimiFeromoni){
-
         this.feromoniKaupunkiin.put(kaupunki, this.feromoniKaupunkiin.getOrDefault(kaupunki,0.0)+maara);
 
         if(this.feromoniKaupunkiin.get(kaupunki) > maksimiFeromoni){
