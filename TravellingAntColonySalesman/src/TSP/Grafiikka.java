@@ -1,8 +1,15 @@
 package TSP;
+import javafx.animation.PathTransition;
 import javafx.application.Application;
 import java.util.List;
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Path;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,17 +18,25 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 import javafx.stage.Stage;
 public class Grafiikka extends Application {
+    Canvas piirtoAlusta = new Canvas(600,600);
+    GraphicsContext piirturi = piirtoAlusta.getGraphicsContext2D();
+    BorderPane asettelu = new BorderPane((piirtoAlusta));
+    Scene kartta = new Scene(asettelu);
+
     @Override
     public void start(Stage ikkuna){
         GridPane ruudukko = new GridPane();
+
+      /*  Canvas piirtoAlusta = new Canvas(600,600);
+        GraphicsContext piirturi = piirtoAlusta.getGraphicsContext2D();
+        BorderPane asettelu = new BorderPane(piirtoAlusta);
+        asettelu.setCenter(piirtoAlusta);
+        Scene kartta = new Scene(asettelu); */
+
 
         Label maxKierrokset = new Label("Maksimikierrokset");
         ruudukko.add(maxKierrokset,0,0);
@@ -72,7 +87,7 @@ public class Grafiikka extends Application {
         ruudukko.add(tiedostoNimi,0,9);
         TextField tiedostoNimiTX = new TextField("Djibouti.txt");
         ruudukko.add(tiedostoNimiTX,1,9);
-
+        ruudukko.setVgap(5);
         ruudukko.setPadding(new Insets(10,20,20,20));
 
         Button nappi = new Button("Käynnistä simulaatio");
@@ -81,9 +96,12 @@ public class Grafiikka extends Application {
                 Integer.parseInt(muuraHaistenMaaraTX.getText()), Double.parseDouble(feromoninAlkuMaaraTX.getText()),
                 Double.parseDouble(pureRandomTX.getText()), Double.parseDouble(alphaTX.getText()),
                 Double.parseDouble(betaTX.getText()), Double.parseDouble(feromoninLisaysMaaraTX.getText()),
-                Double.parseDouble(feromoninHaihtumisKerroinTX.getText()), Double.parseDouble(minimiFeromoninKerroinTX.getText()));
+                Double.parseDouble(feromoninHaihtumisKerroinTX.getText()), Double.parseDouble(minimiFeromoninKerroinTX.getText()),this);
+
+        ikkuna.setScene(kartta);
+
         ohjelma.simulaatio();
-    });
+        });
 
         ruudukko.add(nappi,1,10);
 
@@ -93,6 +111,34 @@ public class Grafiikka extends Application {
         ikkuna.setScene(alkuTilanne);
         ikkuna.show();
 
+    }
+    public void piirraKartta(int[][]koordinaatit,Reitti parasReitti){
+        int edellinenX=0;
+        int edellinenY=0;
+        boolean yliYksiLoydetty = false;
+        for(int x = 0;x<600;x++){
+            for(int y=0;y<600;y++){
+                if(koordinaatit[x][y]==1){
+                    piirturi.fillRect(x,y,10,10);
+                    if(yliYksiLoydetty){
+                       /* Line viiva = new Line();
+                        viiva.setStartX(edellinenX);
+                        viiva.setStartY(edellinenY);
+                        viiva.setEndX(x);
+                        viiva.setEndY(y);
+                        asettelu.getChildren().add(viiva);*/
+                        //piirturi.setStroke(Color.BLACK);
+                       // piirturi.moveTo(x,y);
+
+                       // piirturi.lineTo(edellinenX,edellinenY);
+                    }
+                    yliYksiLoydetty=true;
+                    edellinenX=x;
+                    edellinenY=y;
+                }
+
+            }
+        }
     }
     public void kaynnista(){
         launch(Grafiikka.class);

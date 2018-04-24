@@ -64,6 +64,12 @@ public class Kaupunki {
     public double getFeromoni(Kaupunki kaupunki){
         return this.feromoniKaupunkiin.get(kaupunki);
     }
+    public double getX(){
+        return this.x;
+    }
+    public double getY(){
+        return this.y;
+    }
 
 
 }
