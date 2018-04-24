@@ -22,24 +22,25 @@ public class Ohjelma {
     private double minimiFeromoni;
     private double minimiFeromoniKerroin;
 
-    public Ohjelma(String tiedostoNimi){
+    public Ohjelma(String tiedostoNimi,int maksimiKierrokset, int muurahaistenMaara,double feromoninAlkumaara,double pureRandom,
+                   double alpha,double beta, double feromoninLisaysMaara,double feromoninHaihtumisKerroin,double minimiFeromoniKerroin){
         this.kaupungit= new ArrayList<>();
         this.murkut=new ArrayList<>();
         this.valmiitReitit=new ArrayList<>();
         this.parhaatReitit=new ArrayList<>();
         alustaKaupungit(tiedostoNimi);
-        this.maksimiKierrokset=400;
+        this.maksimiKierrokset=maksimiKierrokset;
         this.kierrokset=0;
-        this.muurahaistenMaara=300;
-        this.feromoninAlkumaara=1;
-        this.pureRandom=0.05;
-        this.alpha=1;
-        this.beta=5;
-        this.feromoninLisaysMaara=1;
-        this.feromoninHaihtumisKerroin=0.5;
+        this.muurahaistenMaara=muurahaistenMaara;
+        this.feromoninAlkumaara=feromoninAlkumaara;
+        this.pureRandom=pureRandom;
+        this.alpha=alpha;
+        this.beta=beta;
+        this.feromoninLisaysMaara=feromoninLisaysMaara;
+        this.feromoninHaihtumisKerroin=feromoninHaihtumisKerroin;
         this.maksimiFeromoni=100;
         this.minimiFeromoni=0.001;
-        this.minimiFeromoniKerroin=0.001;
+        this.minimiFeromoniKerroin=minimiFeromoniKerroin;
     }
     public void simulaatio(){
         alustaFeromoni();
