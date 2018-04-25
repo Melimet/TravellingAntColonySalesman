@@ -1,5 +1,6 @@
 package TSP;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Kaupunki {
@@ -69,6 +70,22 @@ public class Kaupunki {
     }
     public double getY(){
         return this.y;
+    }
+    public int kaannaX(ArrayList<Double>pienimmatJaSuurimmat){
+        double pieninX = pienimmatJaSuurimmat.get(0);
+        double suurinX = pienimmatJaSuurimmat.get(1);
+
+        double kaannettyX = (this.x-pieninX)*(599-1)/(suurinX-pieninX)+1;
+        int intX = (int) Math.round(kaannettyX);
+        return intX;
+    }
+    public int kaannaY(ArrayList<Double>pienimmatJaSuurimmat){
+        double pieninY = pienimmatJaSuurimmat.get(2);
+        double suurinY = pienimmatJaSuurimmat.get(3);
+
+        double kaannettyY = (this.y-pieninY)*(599-1)/(suurinY-pieninY)+1;
+        int intY = (int) Math.round(kaannettyY);
+        return intY;
     }
 
 

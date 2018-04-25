@@ -56,4 +56,10 @@ public class Reitti implements Comparable<Reitti>{
         }
         return 0;
     }
+    public int kaannaX(Kaupunki kaupunki,ArrayList<Double>lista){
+        return kaupunki.kaannaX(lista);
+    }
+    public int kaannaY(Kaupunki kaupunki,ArrayList<Double>lista){
+        return kaupunki.kaannaY(lista);
+    }
 }

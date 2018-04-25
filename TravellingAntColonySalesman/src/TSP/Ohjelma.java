@@ -9,7 +9,7 @@ public class Ohjelma {
     private ArrayList<Kaupunki> kaupungit;
     private ArrayList<Muurahainen> murkut;
     private ArrayList<Reitti> parhaatReitit;
-    private int[][] kaupunkienSijainnit;
+    private ArrayList<Double> pienimmatJaSuurimmat;
     private int maksimiKierrokset;
     private int kierrokset;
     private int muurahaistenMaara;
@@ -44,8 +44,8 @@ public class Ohjelma {
         this.maksimiFeromoni=100;
         this.minimiFeromoni=0.001;
         this.minimiFeromoniKerroin=minimiFeromoniKerroin;
-        this.kaupunkienSijainnit= new int[600][600];
         this.grafiikka=grafiikka;
+        this.pienimmatJaSuurimmat=haePieninjaSuurin(); //indeksi 0 = pieninX, indeksi 1=suurinX, indeksi 2=pieninY, 3=suurinY
     }
     public void simulaatio(){
 
@@ -62,12 +62,11 @@ public class Ohjelma {
             lisaaFeromoni(this.feromoninLisaysMaara);
             Collections.sort(this.parhaatReitit);
             System.out.println(this.kierrokset);
-            kaupunkienSijainnit();
 
 
         }
         Collections.reverse(this.parhaatReitit);
-        grafiikka.piirraKartta(getSijainnit(),this.parhaatReitit.get(0));
+        grafiikka.piirraKartta(this.parhaatReitit.get(0),pienimmatJaSuurimmat);
         this.parhaatReitit.stream()
                 .forEach(i -> System.out.println(i));
 
@@ -136,38 +135,36 @@ public class Ohjelma {
         this.maksimiFeromoni = (1*this.feromoninLisaysMaara)/  this.parhaatReitit.get(0).getReitinPituus(); // 27603;
         this.minimiFeromoni = this.maksimiFeromoni*this.minimiFeromoniKerroin;
     }
-    public void kaupunkienSijainnit(){
+
+
+
+    public ArrayList<Double> haePieninjaSuurin() {
+
         double pieninX = kaupungit.get(0).getX();
         double pieninY = kaupungit.get(0).getY();
         double suurinX = pieninX;
         double suurinY = pieninY;
-        for (Kaupunki kaupunki: this.kaupungit){
-            if(kaupunki.getX()>pieninX){
-                pieninX=kaupunki.getX();
+        for (Kaupunki kaupunki : this.kaupungit) {
+            if (kaupunki.getX() > pieninX) {
+                pieninX = kaupunki.getX();
             }
-            if(kaupunki.getX()<suurinX){
-                suurinX=kaupunki.getX();
+            if (kaupunki.getX() < suurinX) {
+                suurinX = kaupunki.getX();
             }
-            if(kaupunki.getY()>pieninY){
-                pieninY=kaupunki.getY();
+            if (kaupunki.getY() > pieninY) {
+                pieninY = kaupunki.getY();
             }
-            if(kaupunki.getY()<suurinY){
-                suurinY=kaupunki.getY();
+            if (kaupunki.getY() < suurinY) {
+                suurinY = kaupunki.getY();
             }
         }
-        int [][] sijainnit = new int[600][600];
-        for (Kaupunki kaupunki: this.parhaatReitit.get(0).getKaupungit()){
-            double kaannettyX = (kaupunki.getX()-pieninX)*(599-1)/(suurinX-pieninX)+1;
-            double kaannettyY = (kaupunki.getY()-pieninY)*(599-1)/(suurinY-pieninY)+1;
-            int intX=(int) (Math.round(kaannettyX));
-            int intY=(int) (Math.round(kaannettyY));
-            sijainnit[intX][intY]=1;
-        }
-        this.kaupunkienSijainnit=sijainnit;
+        ArrayList<Double> palautettava = new ArrayList();
+        palautettava.add(pieninX);
+        palautettava.add(suurinX);
+        palautettava.add(pieninY);
+        palautettava.add(suurinY);
+        return palautettava;
+    }
 
-    }
-    public int[][] getSijainnit(){
-        return this.kaupunkienSijainnit;
-    }
 
 }

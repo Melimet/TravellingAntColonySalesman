@@ -1,6 +1,8 @@
 package TSP;
 import javafx.animation.PathTransition;
 import javafx.application.Application;
+
+import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -112,32 +114,25 @@ public class Grafiikka extends Application {
         ikkuna.show();
 
     }
-    public void piirraKartta(int[][]koordinaatit,Reitti parasReitti){
-        int edellinenX=0;
-        int edellinenY=0;
-        boolean yliYksiLoydetty = false;
-        for(int x = 0;x<600;x++){
-            for(int y=0;y<600;y++){
-                if(koordinaatit[x][y]==1){
-                    piirturi.fillRect(x,y,10,10);
-                    if(yliYksiLoydetty){
-                       /* Line viiva = new Line();
-                        viiva.setStartX(edellinenX);
-                        viiva.setStartY(edellinenY);
-                        viiva.setEndX(x);
-                        viiva.setEndY(y);
-                        asettelu.getChildren().add(viiva);*/
+    public void piirraKartta(Reitti parasReitti, ArrayList<Double> lista){
+        int edellinenX=parasReitti.getKaupungit().get(0).kaannaX(lista);
+        int edellinenY=parasReitti.getKaupungit().get(0).kaannaY(lista);
+        for(int i = 1;i<parasReitti.getListanKoko();i++){
+            int x = parasReitti.getKaupungit().get(i).kaannaX(lista);  //Hakee listalla järjestyksessä olevien kaupunkien koordinaatit
+            int y = parasReitti.getKaupungit().get(i).kaannaY(lista);
+            piirturi.fillRect(x,y,10,10);
+            Line viiva = new Line();
+            viiva.setStartX(edellinenX);
+            viiva.setStartY(edellinenY);
+            viiva.setEndX(x);
+            viiva.setEndY(y);
+            asettelu.getChildren().add(viiva);
                         //piirturi.setStroke(Color.BLACK);
                        // piirturi.moveTo(x,y);
-
                        // piirturi.lineTo(edellinenX,edellinenY);
-                    }
-                    yliYksiLoydetty=true;
-                    edellinenX=x;
-                    edellinenY=y;
-                }
 
-            }
+            edellinenX=x;
+            edellinenY=y;
         }
     }
     public void kaynnista(){
