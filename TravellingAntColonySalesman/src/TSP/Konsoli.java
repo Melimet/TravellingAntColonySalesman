@@ -1,17 +1,17 @@
 package TSP;
 
 
-import java.util.Scanner;
+//import java.util.Scanner;
 
-public class Konsoli {
+public class Konsoli { //LEGACY, EI ENÄÄ TEE MITÄÄN
 
-    private Scanner lukija;
-    public Konsoli(Scanner scanner){
-        this.lukija=scanner;
-    }
-    public void kaynnista(){
+    //private Scanner lukija;
+    //public Konsoli(Scanner scanner){
+     //   this.lukija=scanner;
+    //}
+    //public void kaynnista(){
        // Ohjelma tsp= new Ohjelma("Djibouti.txt");
        // tsp.simulaatio();
-    }
+    //}
 
 }

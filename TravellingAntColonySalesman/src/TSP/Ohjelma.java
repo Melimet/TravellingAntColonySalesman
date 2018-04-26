@@ -5,23 +5,23 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Ohjelma {
-    private ArrayList<Reitti> valmiitReitit;
-    private ArrayList<Kaupunki> kaupungit;
-    private ArrayList<Muurahainen> murkut;
-    private ArrayList<Reitti> parhaatReitit;
-    private ArrayList<Double> pienimmatJaSuurimmat;
+    private ArrayList<Reitti> valmiitReitit; //Yksittäisen kierroksen jokainen reitti. Tyhjennetään kierroksen lopussa
+    private ArrayList<Kaupunki> kaupungit; //Sisältää kaupungir
+    private ArrayList<Muurahainen> murkut; //Sisältää muurahaiset
+    private ArrayList<Reitti> parhaatReitit; //Jokaisen kierroksen lyhin reitti lisätään listaan
+    private ArrayList<Double> pienimmatJaSuurimmat; //Canvaksen skaalaukseen, hakee kaupungin pienimmät ja suurimmat XY koordinaatit
     private int maksimiKierrokset;
     private int kierrokset;
     private int muurahaistenMaara;
     private double feromoninAlkumaara;
-    private double pureRandom;
-    private double alpha;
-    private double beta;
-    private double feromoninLisaysMaara;
-    private double feromoninHaihtumisKerroin;
-    private double maksimiFeromoni;
-    private double minimiFeromoni;
-    private double minimiFeromoniKerroin;
+    private double pureRandom; //Todennäköisyys, jolla muurahainen puhtaastu arpoo seuraavan määränpään
+    private double alpha; //Alpha on muuttuja, joka vaikuttaa feromonin painoitukseen päätöksenteossa.
+    private double beta; //Beta on muuttuja, joka vaikuttaa etäisyyden painotukseen päätöksenteossa.
+    private double feromoninLisaysMaara; //Kuinka paljon feromonia eritetään kierroksen lopussa
+    private double feromoninHaihtumisKerroin; //Kerroin, jolla kartalla oleva feromoni kerrotaan. Luvun kuuluu olla alle 1.
+    private double maksimiFeromoni;  //Feromonin yläraja kartalla
+    private double minimiFeromoni; //Feromonin alaraja kartalla
+    private double minimiFeromoniKerroin; // Kerroin, jolla feromonin alaraja määritetään
     private Grafiikka grafiikka;
     public Ohjelma(String tiedostoNimi,int maksimiKierrokset, int muurahaistenMaara,
                    double feromoninAlkumaara,double pureRandom,
@@ -49,26 +49,24 @@ public class Ohjelma {
     }
     public void simulaatio(){
 
-        alustaFeromoni();
+        alustaFeromoni(); //Lisää halutun määrän feromonia jokaiselle välille kartalla
 
         for(;this.kierrokset<this.maksimiKierrokset;this.kierrokset++){
-            luoMurkut();
-            siirraMurkut();
-            lisaaValmiitReitit();
-            Collections.sort(this.valmiitReitit);
-            this.parhaatReitit.add(this.valmiitReitit.get(0));
-            laskeMinJaMax();
-            tyhjennaListat();
-            lisaaFeromoni(this.feromoninLisaysMaara);
-            Collections.sort(this.parhaatReitit);
+            luoMurkut(); //Luo halutun määrän muurahaisia
+            siirraMurkut(); //Muurahaiset kulkevat kartan läpi
+            lisaaValmiitReitit(); //Lisää muurahaisten kulkemat reitit listaan
+            Collections.sort(this.valmiitReitit); //Järjestää reitit parhausjärjestykseen
+            this.parhaatReitit.add(this.valmiitReitit.get(0)); //Lisää yksittäisen kierroksen parhaan reitin
+            laskeMinJaMax(); //Laskee Feromonin ylä- ja alarajan
+            tyhjennaListat(); //Poistaa muurahaiset ja nykyisen kierroksen reitit
+            lisaaFeromoni(this.feromoninLisaysMaara); //Lisää parhaimman muurahaisen kulkemalle reitille feromonia
+            Collections.sort(this.parhaatReitit); //Järjestää parhaat reitit
             System.out.println(this.kierrokset);
-
-
         }
         Collections.reverse(this.parhaatReitit);
-        grafiikka.piirraKartta(this.parhaatReitit.get(0),pienimmatJaSuurimmat);
+        grafiikka.piirraKartta(this.parhaatReitit.get(0),pienimmatJaSuurimmat); //Piirtää lyhyimmän reitin canvakselle
         this.parhaatReitit.stream()
-                .forEach(i -> System.out.println(i));
+                .forEach(i -> System.out.println(i)); //Tulostaa parhaimmat reitit
 
     }
     private void alustaKaupungit(String tiedostoNimi){
@@ -138,7 +136,7 @@ public class Ohjelma {
 
 
 
-    public ArrayList<Double> haePieninjaSuurin() {
+    private ArrayList<Double> haePieninjaSuurin() {
 
         double pieninX = kaupungit.get(0).getX();
         double pieninY = kaupungit.get(0).getY();

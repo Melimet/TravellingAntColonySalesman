@@ -67,7 +67,7 @@ public class Grafiikka extends Application {
 
         Label beta = new Label("Beta");
         ruudukko.add(beta,0,5);
-        TextField betaTX = new TextField("5");
+        TextField betaTX = new TextField("3");
         ruudukko.add(betaTX,1,5);
 
         Label feromoninLisaysMaara = new Label("Feromonin lisäys määrä");

@@ -28,7 +28,7 @@ public class Kaupunki {
         }if(!(Kaupunki.class.isAssignableFrom(object.getClass()))) {
             return false;
         }
-        final Kaupunki obj = (Kaupunki) object;
+        Kaupunki obj = (Kaupunki) object;
         if(obj.nimi.equals(this.nimi)){
             return true;
         }
