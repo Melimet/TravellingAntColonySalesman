@@ -10,13 +10,7 @@ public class Reitti implements Comparable<Reitti>{
         this.kuljettuReitti= new ArrayList<>();
         this.reitinPituus=0.0;
     }
-    public String getVieraillutKaupungit(){
-        String vieraillut="";
-        for (Kaupunki kaupunki:this.kuljettuReitti){
-            vieraillut+=" "+kaupunki.toString();
-        }
-        return vieraillut;
-    }
+
     public int getListanKoko(){
         return this.kuljettuReitti.size();
     }

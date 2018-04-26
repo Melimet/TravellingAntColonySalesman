@@ -33,12 +33,6 @@ public class Grafiikka extends Application {
     public void start(Stage ikkuna){
         GridPane ruudukko = new GridPane();
 
-      /*  Canvas piirtoAlusta = new Canvas(600,600);
-        GraphicsContext piirturi = piirtoAlusta.getGraphicsContext2D();
-        BorderPane asettelu = new BorderPane(piirtoAlusta);
-        asettelu.setCenter(piirtoAlusta);
-        Scene kartta = new Scene(asettelu); */
-
 
         Label maxKierrokset = new Label("Maksimikierrokset");
         ruudukko.add(maxKierrokset,0,0);
@@ -92,7 +86,7 @@ public class Grafiikka extends Application {
         ruudukko.setVgap(5);
         ruudukko.setPadding(new Insets(10,20,20,20));
 
-        Button nappi = new Button("Käynnistä simulaatio");
+        Button nappi = new Button("Käynnistä simulaatio"); //nappia painaessa käynnistetään ohjelma-olio
         nappi.setOnAction((event) -> {
         Ohjelma ohjelma = new Ohjelma(tiedostoNimiTX.getText(),Integer.parseInt(maxKierroksetTX.getText()),
                 Integer.parseInt(muuraHaistenMaaraTX.getText()), Double.parseDouble(feromoninAlkuMaaraTX.getText()),
@@ -115,8 +109,9 @@ public class Grafiikka extends Application {
 
     }
     public void piirraKartta(Reitti parasReitti, ArrayList<Double> lista){
-        int edellinenX=parasReitti.getKaupungit().get(0).kaannaX(lista);
+        int edellinenX=parasReitti.getKaupungit().get(0).kaannaX(lista); //Otetaan ensimmäisen kaupungin koordinaatit
         int edellinenY=parasReitti.getKaupungit().get(0).kaannaY(lista);
+
         for(int i = 1;i<parasReitti.getListanKoko();i++){
             int x = parasReitti.getKaupungit().get(i).kaannaX(lista);  //Hakee listalla järjestyksessä olevien kaupunkien koordinaatit
             int y = parasReitti.getKaupungit().get(i).kaannaY(lista);

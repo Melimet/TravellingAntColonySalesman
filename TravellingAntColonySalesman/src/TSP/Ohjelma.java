@@ -31,7 +31,7 @@ public class Ohjelma {
         this.murkut=new ArrayList<>();
         this.valmiitReitit=new ArrayList<>();
         this.parhaatReitit=new ArrayList<>();
-        alustaKaupungit(tiedostoNimi);
+        alustaKaupungit(tiedostoNimi); //Lisää tiedostossa olevat kaupungit this.kaupungit listalle
         this.maksimiKierrokset=maksimiKierrokset;
         this.kierrokset=0;
         this.muurahaistenMaara=muurahaistenMaara;
@@ -69,7 +69,7 @@ public class Ohjelma {
                 .forEach(i -> System.out.println(i)); //Tulostaa parhaimmat reitit
 
     }
-    private void alustaKaupungit(String tiedostoNimi){
+    private void alustaKaupungit(String tiedostoNimi){ //Lukee tiedoston ja lisää kaupungit this.kaupungit listalle
         try(Scanner tiedostoLukija = new Scanner(new File(tiedostoNimi))){
             while(tiedostoLukija.hasNextLine()){
                 String rivi = tiedostoLukija.nextLine();
@@ -81,26 +81,26 @@ public class Ohjelma {
             System.out.println(e);
         }
     }
-    private void luoMurkut(){
+    private void luoMurkut(){ //Luo halutun määrän muurahaisia
         for (int i=0;i<this.muurahaistenMaara;i++){
             Muurahainen murkku = new Muurahainen(this.kaupungit.get(0));
             this.murkut.add(murkku);
         }
     }
-    private void siirraMurkut(){
+    private void siirraMurkut(){ //Liikuttaa kaikki muurahaiset radan alusta loppuun
         for(int x=0;x<this.kaupungit.size();x++) {
             for (int i = 0; i < this.murkut.size(); i++) {
                 this.murkut.get(i).liiku(this.kaupungit,this.pureRandom,this.alpha,this.beta);
             }
         }
     }
-    private void lisaaValmiitReitit(){
+    private void lisaaValmiitReitit(){ //Lisää muurahaisten kulkemat reitit listaan
         for (int i = 0; i < this.murkut.size(); i++) {
             this.valmiitReitit.add(this.murkut.get(i).getValmisReitti());
         }
 
     }
-    private void tyhjennaListat(){
+    private void tyhjennaListat(){ //Tyhjentää muurahaiset, valmiit reitit ja vähentää feromonia halutun määrän
 
         this.murkut.clear();
         this.valmiitReitit.clear();
@@ -122,21 +122,21 @@ public class Ohjelma {
         }
 
     }
-    private void alustaFeromoni(){
+    private void alustaFeromoni(){ //Lisää halutun määrän feromonia kartalle simulaation alussa
         for (int i=0; i<this.kaupungit.size();i++){
             for(Kaupunki kaupunki: this.kaupungit){
                 this.kaupungit.get(i).lisaaFeromoni(kaupunki,this.feromoninAlkumaara,this.maksimiFeromoni);
             }
         }
     }
-    private void laskeMinJaMax(){
-        this.maksimiFeromoni = (1*this.feromoninLisaysMaara)/  this.parhaatReitit.get(0).getReitinPituus(); // 27603;
+    private void laskeMinJaMax(){ //Laskee minimi- ja maksimiarvot feromonille
+        this.maksimiFeromoni = (1*this.feromoninLisaysMaara)/  this.parhaatReitit.get(0).getReitinPituus();
         this.minimiFeromoni = this.maksimiFeromoni*this.minimiFeromoniKerroin;
     }
 
 
 
-    private ArrayList<Double> haePieninjaSuurin() {
+    private ArrayList<Double> haePieninjaSuurin() { //Liittyy kanvaksen skaalaukseen. Ottaa pienimmät ja suurimmat x y koordinaatit.
 
         double pieninX = kaupungit.get(0).getX();
         double pieninY = kaupungit.get(0).getY();

@@ -15,7 +15,7 @@ public class Kaupunki {
         this.x=x;
         this.y=y;
     }
-    public double laskeEtaisyys(Kaupunki kaupunki){
+    public double laskeEtaisyys(Kaupunki kaupunki){ //Laskee etäisyyden verrattavaan kaupunkiin. Hyödyntää Pythagoraan lausetta
         double etaisyys = Math.sqrt(Math.pow((this.x-kaupunki.x),2)+Math.pow((this.y-kaupunki.y),2));
         return etaisyys;
     }
@@ -53,7 +53,7 @@ public class Kaupunki {
     }
 
     public void vahennaFeromonia(Double vahenevaKerroin,double minimiFeromoni){
-
+         //Vähentää halutun määrän feromonia, jos menee alle minimin, asetetaan feromoni minimin tasolle
         for(Kaupunki kaupunki: this.feromoniKaupunkiin.keySet()) {
             this.feromoniKaupunkiin.put(kaupunki, this.feromoniKaupunkiin.get(kaupunki) * vahenevaKerroin);
             if(this.feromoniKaupunkiin.get(kaupunki) < minimiFeromoni){
@@ -71,7 +71,7 @@ public class Kaupunki {
     public double getY(){
         return this.y;
     }
-    public int kaannaX(ArrayList<Double>pienimmatJaSuurimmat){
+    public int kaannaX(ArrayList<Double>pienimmatJaSuurimmat){ //Muuttaa kaupungin x-koordinaatin oikeaan mittakaavaan skaalatuksi
         double pieninX = pienimmatJaSuurimmat.get(0);
         double suurinX = pienimmatJaSuurimmat.get(1);
 
@@ -79,7 +79,7 @@ public class Kaupunki {
         int intX = (int) Math.round(kaannettyX);
         return intX;
     }
-    public int kaannaY(ArrayList<Double>pienimmatJaSuurimmat){
+    public int kaannaY(ArrayList<Double>pienimmatJaSuurimmat){ //Muuttaa kaupungin y-koordinaatin oikeaan mittakaavaan skaalatuksi
         double pieninY = pienimmatJaSuurimmat.get(2);
         double suurinY = pienimmatJaSuurimmat.get(3);
 
