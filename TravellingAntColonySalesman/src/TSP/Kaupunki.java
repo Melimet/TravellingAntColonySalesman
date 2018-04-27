@@ -87,6 +87,4 @@ public class Kaupunki {
         int intY = (int) Math.round(kaannettyY);
         return intY;
     }
-
-
 }

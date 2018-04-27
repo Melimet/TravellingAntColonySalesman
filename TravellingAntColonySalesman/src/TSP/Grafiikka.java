@@ -1,7 +1,6 @@
 package TSP;
 import javafx.animation.PathTransition;
 import javafx.application.Application;
-
 import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Application;
@@ -21,8 +20,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
-
 import javafx.stage.Stage;
+
 public class Grafiikka extends Application {
     Canvas piirtoAlusta = new Canvas(600,600);
     GraphicsContext piirturi = piirtoAlusta.getGraphicsContext2D();
@@ -64,7 +63,7 @@ public class Grafiikka extends Application {
         TextField betaTX = new TextField("3");
         ruudukko.add(betaTX,1,5);
 
-        Label feromoninLisaysMaara = new Label("Feromonin lisäys määrä");
+        Label feromoninLisaysMaara = new Label("Feromonin lisäysmäärä");
         ruudukko.add(feromoninLisaysMaara,0,6);
         TextField feromoninLisaysMaaraTX = new TextField("1");
         ruudukko.add(feromoninLisaysMaaraTX,1,6);
@@ -81,7 +80,7 @@ public class Grafiikka extends Application {
 
         Label tiedostoNimi = new Label("Tiedoston nimi");
         ruudukko.add(tiedostoNimi,0,9);
-        TextField tiedostoNimiTX = new TextField("Djibouti.txt");
+        TextField tiedostoNimiTX = new TextField("WesternSahara.txt");
         ruudukko.add(tiedostoNimiTX,1,9);
         ruudukko.setVgap(5);
         ruudukko.setPadding(new Insets(10,20,20,20));
@@ -95,12 +94,10 @@ public class Grafiikka extends Application {
                 Double.parseDouble(feromoninHaihtumisKerroinTX.getText()), Double.parseDouble(minimiFeromoninKerroinTX.getText()),this);
 
         ikkuna.setScene(kartta);
-
         ohjelma.simulaatio();
         });
 
         ruudukko.add(nappi,1,10);
-
 
         Scene alkuTilanne = new Scene(ruudukko);
         ikkuna.setTitle("TSP");
@@ -115,12 +112,12 @@ public class Grafiikka extends Application {
         for(int i = 1;i<parasReitti.getListanKoko();i++){
             int x = parasReitti.getKaupungit().get(i).kaannaX(lista);  //Hakee listalla järjestyksessä olevien kaupunkien koordinaatit
             int y = parasReitti.getKaupungit().get(i).kaannaY(lista);
-            piirturi.fillRect(x,y,10,10);
+            piirturi.fillRect(y,x,10,10);
             Line viiva = new Line();
-            viiva.setStartX(edellinenX);
-            viiva.setStartY(edellinenY);
-            viiva.setEndX(x);
-            viiva.setEndY(y);
+            viiva.setStartX(y);
+            viiva.setStartY(x);
+            viiva.setEndX(edellinenY);
+            viiva.setEndY(edellinenX);
             asettelu.getChildren().add(viiva);
                         //piirturi.setStroke(Color.BLACK);
                        // piirturi.moveTo(x,y);
