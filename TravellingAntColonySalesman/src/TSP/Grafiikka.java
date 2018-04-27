@@ -23,7 +23,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Grafiikka extends Application {
-    Canvas piirtoAlusta = new Canvas(600,600);
+    Canvas piirtoAlusta = new Canvas(650,650);
     GraphicsContext piirturi = piirtoAlusta.getGraphicsContext2D();
     BorderPane asettelu = new BorderPane((piirtoAlusta));
     Scene kartta = new Scene(asettelu);

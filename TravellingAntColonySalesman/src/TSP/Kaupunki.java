@@ -75,7 +75,7 @@ public class Kaupunki {
         double pieninX = pienimmatJaSuurimmat.get(0);
         double suurinX = pienimmatJaSuurimmat.get(1);
 
-        double kaannettyX = (this.x-pieninX)*(599-1)/(suurinX-pieninX)+1;
+        double kaannettyX = (this.x-pieninX)*(549-1)/(suurinX-pieninX)+50;
         int intX = (int) Math.round(kaannettyX);
         return intX;
     }
@@ -83,7 +83,7 @@ public class Kaupunki {
         double pieninY = pienimmatJaSuurimmat.get(2);
         double suurinY = pienimmatJaSuurimmat.get(3);
 
-        double kaannettyY = (this.y-pieninY)*(599-1)/(suurinY-pieninY)+1;
+        double kaannettyY = (this.y-pieninY)*(549-1)/(suurinY-pieninY)+50;
         int intY = (int) Math.round(kaannettyY);
         return intY;
     }
