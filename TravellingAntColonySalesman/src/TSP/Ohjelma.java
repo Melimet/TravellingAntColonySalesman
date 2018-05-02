@@ -23,15 +23,16 @@ public class Ohjelma {
     private double minimiFeromoni; //Feromonin alaraja kartalla
     private double minimiFeromoniKerroin; // Kerroin, jolla feromonin alaraja määritetään
     private Grafiikka grafiikka;
-    public Ohjelma(String tiedostoNimi,int maksimiKierrokset, int muurahaistenMaara,
-                   double feromoninAlkumaara,double pureRandom,
-                   double alpha,double beta, double feromoninLisaysMaara,
-                   double feromoninHaihtumisKerroin,double minimiFeromoniKerroin,Grafiikka grafiikka){
-        this.kaupungit= new ArrayList<>();
+
+    public Ohjelma(String tiedostoNimi, int maksimiKierrokset, int muurahaistenMaara,
+                   double feromoninAlkumaara, double pureRandom,
+                   double alpha, double beta, double feromoninLisaysMaara,
+                   double feromoninHaihtumisKerroin, double minimiFeromoniKerroin,Grafiikka grafiikka){
+
+        this.kaupungit= TiedostoLukija.lueTiedosto(tiedostoNimi);
         this.murkut=new ArrayList<>();
         this.valmiitReitit=new ArrayList<>();
         this.parhaatReitit=new ArrayList<>();
-        alustaKaupungit(tiedostoNimi); //Lisää tiedostossa olevat kaupungit this.kaupungit listalle
         this.maksimiKierrokset=maksimiKierrokset;
         this.kierrokset=0;
         this.muurahaistenMaara=muurahaistenMaara;
@@ -69,18 +70,7 @@ public class Ohjelma {
                 .forEach(i -> System.out.println(i)); //Tulostaa parhaimmat reitit
 
     }
-    private void alustaKaupungit(String tiedostoNimi){ //Lukee tiedoston ja lisää kaupungit this.kaupungit listalle
-        try(Scanner tiedostoLukija = new Scanner(new File(tiedostoNimi))){
-            while(tiedostoLukija.hasNextLine()){
-                String rivi = tiedostoLukija.nextLine();
-                String[] sanat = rivi.split(" ");
-                Kaupunki kaupunki = new Kaupunki(sanat[0],Double.parseDouble(sanat[1]),Double.parseDouble(sanat[2]));
-                this.kaupungit.add(kaupunki);
-            }
-        }catch (Exception e){
-            System.out.println(e);
-        }
-    }
+
     private void luoMurkut(){ //Luo halutun määrän muurahaisia
         for (int i=0;i<this.muurahaistenMaara;i++){
             Muurahainen murkku = new Muurahainen(this.kaupungit.get(0));
