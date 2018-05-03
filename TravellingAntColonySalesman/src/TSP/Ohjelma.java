@@ -1,7 +1,5 @@
 package TSP;
-import java.io.File;
 import java.util.Collections;
-import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Ohjelma {
@@ -11,7 +9,6 @@ public class Ohjelma {
     private ArrayList<Reitti> parhaatReitit; //Jokaisen kierroksen lyhin reitti lisätään listaan
     private ArrayList<Double> pienimmatJaSuurimmat; //Canvaksen skaalaukseen, hakee kaupungin pienimmät ja suurimmat XY koordinaatit
     private int maksimiKierrokset;
-    private int kierrokset;
     private int muurahaistenMaara;
     private double feromoninAlkumaara;
     private double pureRandom; //Todennäköisyys, jolla muurahainen puhtaastu arpoo seuraavan määränpään
@@ -22,19 +19,18 @@ public class Ohjelma {
     private double maksimiFeromoni;  //Feromonin yläraja kartalla
     private double minimiFeromoni; //Feromonin alaraja kartalla
     private double minimiFeromoniKerroin; // Kerroin, jolla feromonin alaraja määritetään
-    private Grafiikka grafiikka;
+
 
     public Ohjelma(String tiedostoNimi, int maksimiKierrokset, int muurahaistenMaara,
                    double feromoninAlkumaara, double pureRandom,
                    double alpha, double beta, double feromoninLisaysMaara,
-                   double feromoninHaihtumisKerroin, double minimiFeromoniKerroin,Grafiikka grafiikka){
+                   double feromoninHaihtumisKerroin, double minimiFeromoniKerroin){
 
         this.kaupungit= TiedostoLukija.lueTiedosto(tiedostoNimi);
         this.murkut=new ArrayList<>();
         this.valmiitReitit=new ArrayList<>();
         this.parhaatReitit=new ArrayList<>();
         this.maksimiKierrokset=maksimiKierrokset;
-        this.kierrokset=0;
         this.muurahaistenMaara=muurahaistenMaara;
         this.feromoninAlkumaara=feromoninAlkumaara;
         this.pureRandom=pureRandom;
@@ -45,14 +41,13 @@ public class Ohjelma {
         this.maksimiFeromoni=100;
         this.minimiFeromoni=0.001;
         this.minimiFeromoniKerroin=minimiFeromoniKerroin;
-        this.grafiikka=grafiikka;
         this.pienimmatJaSuurimmat=haePieninjaSuurin(); //indeksi 0 = pieninX, indeksi 1=suurinX, indeksi 2=pieninY, 3=suurinY
     }
     public void simulaatio(){
 
         alustaFeromoni(); //Lisää halutun määrän feromonia jokaiselle välille kartalla
 
-        for(;this.kierrokset<this.maksimiKierrokset;this.kierrokset++){
+        for(int kierrokset=0;kierrokset<this.maksimiKierrokset;kierrokset++){
             luoMurkut(); //Luo halutun määrän muurahaisia
             siirraMurkut(); //Muurahaiset kulkevat kartan läpi
             lisaaValmiitReitit(); //Lisää muurahaisten kulkemat reitit listaan
@@ -60,14 +55,14 @@ public class Ohjelma {
             this.parhaatReitit.add(this.valmiitReitit.get(0)); //Lisää yksittäisen kierroksen parhaan reitin
             laskeMinJaMax(); //Laskee Feromonin ylä- ja alarajan
             tyhjennaListat(); //Poistaa muurahaiset ja nykyisen kierroksen reitit
-            lisaaFeromoni(this.feromoninLisaysMaara); //Lisää parhaimman muurahaisen kulkemalle reitille feromonia
+            lisaaFeromoni(this.feromoninLisaysMaara, kierrokset); //Lisää parhaimman muurahaisen kulkemalle reitille feromonia
             Collections.sort(this.parhaatReitit); //Järjestää parhaat reitit
-            System.out.println(this.kierrokset);
+            System.out.println(kierrokset);
         }
+
         Collections.reverse(this.parhaatReitit);
-        grafiikka.piirraKartta(this.parhaatReitit.get(0),pienimmatJaSuurimmat); //Piirtää lyhyimmän reitin canvakselle
         this.parhaatReitit.stream()
-                .forEach(i -> System.out.println(i)); //Tulostaa parhaimmat reitit
+                .forEach(i -> System.out.println(i)); //Tulostaa parhaimmat reitit, alimpana lyhin reitti
 
     }
 
@@ -90,7 +85,7 @@ public class Ohjelma {
         }
 
     }
-    private void tyhjennaListat(){ //Tyhjentää muurahaiset, valmiit reitit ja vähentää feromonia halutun määrän
+    private void tyhjennaListat(){ //Tyhjentää muurahaiset, valmiit reitit ja haihduttaa feromonia halutun määrän
 
         this.murkut.clear();
         this.valmiitReitit.clear();
@@ -98,8 +93,8 @@ public class Ohjelma {
             kaupunki.vahennaFeromonia(this.feromoninHaihtumisKerroin,this.minimiFeromoni);
         }
     }
-    private void lisaaFeromoni(double maara){
-        if (this.kierrokset<this.maksimiKierrokset*0.75){  //Ensimmäiset 75% kierroksista tehdään edellisen kierroksen parhaan muurahaisen perusteella
+    private void lisaaFeromoni(double maara,int kierrokset){
+        if (kierrokset<this.maksimiKierrokset*0.75){  //Ensimmäiset 75% kierroksista tehdään edellisen kierroksen parhaan muurahaisen perusteella
             for (int i = 0; i<this.kaupungit.size()-1;i++){ //Loput kaikista parhaan muurahaisen mukaan
                 this.parhaatReitit.get(this.parhaatReitit.size()-1).getKaupungit().get(i).
                         lisaaFeromoni(this.parhaatReitit.get(0).getKaupungit().get(i+1),maara,this.maksimiFeromoni);
@@ -132,26 +127,37 @@ public class Ohjelma {
         double pieninY = kaupungit.get(0).getY();
         double suurinX = pieninX;
         double suurinY = pieninY;
+
         for (Kaupunki kaupunki : this.kaupungit) {
             if (kaupunki.getX() > pieninX) {
                 pieninX = kaupunki.getX();
-            }
-            if (kaupunki.getX() < suurinX) {
+            }if (kaupunki.getX() < suurinX) {
                 suurinX = kaupunki.getX();
-            }
-            if (kaupunki.getY() > pieninY) {
+            }if (kaupunki.getY() > pieninY) {
                 pieninY = kaupunki.getY();
-            }
-            if (kaupunki.getY() < suurinY) {
+            }if (kaupunki.getY() < suurinY) {
                 suurinY = kaupunki.getY();
             }
         }
+
         ArrayList<Double> palautettava = new ArrayList();
         palautettava.add(pieninX);
         palautettava.add(suurinX);
         palautettava.add(pieninY);
         palautettava.add(suurinY);
         return palautettava;
+    }
+    public int getKaupunkienMaara(){
+        return this.kaupungit.size();
+    }
+    public Reitti getParasReitti(){
+        return this.parhaatReitit.get(0);
+    }
+    public ArrayList<Double> getMinMaxLista(){
+        return this.pienimmatJaSuurimmat;
+    }
+    public ArrayList<Kaupunki> getKaupungit(){
+        return this.kaupungit;
     }
 
 

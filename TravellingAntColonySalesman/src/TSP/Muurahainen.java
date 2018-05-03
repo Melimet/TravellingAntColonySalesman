@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Muurahainen {
-    private Reitti kuljettuReitti; //Oliomuuttuja, joka sisältää vieraillut kaupungit järjestyksessä
+    private Reitti kuljettuReitti; //Sisältää vieraillut kaupungit järjestyksessä ja käteviä metodeja reitin hyödyntämiseen
 
     public Muurahainen(Kaupunki lahtoPaikka){
         this.kuljettuReitti=new Reitti();
@@ -30,10 +30,11 @@ public class Muurahainen {
                     return;
                 }
             }
+
         }else{
             for(int x =0; x<kaupungit.size();x++){ //Käy kaupungit läpi ja katsoo onko niissä vierailtu
                 if (!(this.kuljettuReitti.onkoKayty(kaupungit.get(x)))) {
-                        //Lisää kaupungin todennäköisyyden tulla vierailluksi summaan.
+                        //Lisää kaupungin todennäköisyyden tulla vierailluksi summaan. Lasku on feromoni^2+(1/etäisyys kaupunkiin)^2
                     summa += Math.pow(this.kuljettuReitti.getNykyinenKaupunki().getFeromoni(kaupungit.get(x)),alpha)
                             *Math.pow(1.0 / this.kuljettuReitti.getNykyinenKaupunki().laskeEtaisyys(kaupungit.get(x)),beta);
                 }
@@ -46,6 +47,7 @@ public class Muurahainen {
 
                     verrattavaSumma += Math.pow(this.kuljettuReitti.getNykyinenKaupunki().getFeromoni(kaupungit.get(x)),alpha)
                             *Math.pow(1.0 / this.kuljettuReitti.getNykyinenKaupunki().laskeEtaisyys(kaupungit.get(x)),beta);
+
                     if(verrattavaSumma >= satunnainenArvo) {
                         lisaaKaytyihin(kaupungit.get(x));
                         return;

@@ -15,7 +15,7 @@ public class Kaupunki {
         this.x=x;
         this.y=y;
     }
-    public double laskeEtaisyys(Kaupunki kaupunki){ //Laskee etäisyyden verrattavaan kaupunkiin. Hyödyntää Pythagoraan lausetta
+    public double laskeEtaisyys(Kaupunki kaupunki){ //Laskee etäisyyden verrattavaan kaupunkiin. Käytetään Pythagoraan lausetta.
         double etaisyys = Math.sqrt(Math.pow((this.x-kaupunki.x),2)+Math.pow((this.y-kaupunki.y),2));
         return etaisyys;
     }
@@ -29,7 +29,7 @@ public class Kaupunki {
             return false;
         }
         Kaupunki obj = (Kaupunki) object;
-        if(obj.nimi.equals(this.nimi)){
+        if(obj.nimi.equals(this.nimi) && obj.x==this.x && obj.y==this.y){ //Jos koordinaatit ja nimi on sama, on se sama kaupunki
             return true;
         }
         return false;
@@ -53,7 +53,7 @@ public class Kaupunki {
     }
 
     public void vahennaFeromonia(Double vahenevaKerroin,double minimiFeromoni){
-         //Vähentää halutun määrän feromonia, jos menee alle minimin, asetetaan feromoni minimin tasolle
+         //Vähentää halutun määrän feromonia. Jos menee alle minimin, asetetaan feromoni minimin tasolle
         for(Kaupunki kaupunki: this.feromoniKaupunkiin.keySet()) {
             this.feromoniKaupunkiin.put(kaupunki, this.feromoniKaupunkiin.get(kaupunki) * vahenevaKerroin);
             if(this.feromoniKaupunkiin.get(kaupunki) < minimiFeromoni){
@@ -62,7 +62,7 @@ public class Kaupunki {
 
         }
     }
-    public double getFeromoni(Kaupunki kaupunki){
+    public double getFeromoni(Kaupunki kaupunki){ //Palauttaa feromonin määrän kahden kaupungin välillä
         return this.feromoniKaupunkiin.get(kaupunki);
     }
     public double getX(){
@@ -71,6 +71,7 @@ public class Kaupunki {
     public double getY(){
         return this.y;
     }
+
     public int kaannaX(ArrayList<Double>pienimmatJaSuurimmat){ //Muuttaa kaupungin x-koordinaatin oikeaan mittakaavaan skaalatuksi
         double pieninX = pienimmatJaSuurimmat.get(0);
         double suurinX = pienimmatJaSuurimmat.get(1);

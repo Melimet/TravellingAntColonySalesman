@@ -14,18 +14,22 @@ public class Reitti implements Comparable<Reitti>{
     public int getListanKoko(){
         return this.kuljettuReitti.size();
     }
+
     public ArrayList<Kaupunki> getKaupungit(){
         return this.kuljettuReitti;
     }
+
     public void lisaaKaytyihin(Kaupunki kaupunki){
         if (!(this.kuljettuReitti.isEmpty())){
             reitinPituus+=kaupunki.laskeEtaisyys(kuljettuReitti.get(kuljettuReitti.size()-1));
         }
         this.kuljettuReitti.add(kaupunki);
     }
+
     public Kaupunki getNykyinenKaupunki(){
         return this.kuljettuReitti.get(this.kuljettuReitti.size()-1);
     }
+
     public boolean onkoKayty(Kaupunki kaupunki){ //Palauttaa true, jos ei käyty
         for (Kaupunki verrattava: this.getKaupungit()){
             if(kaupunki.equals(verrattava)){
@@ -34,13 +38,16 @@ public class Reitti implements Comparable<Reitti>{
         }
         return false;
     }
+
     public double getReitinPituus(){
         return this.reitinPituus;
     }
+
     @Override
     public String toString(){
         return "Kuljettu reitti: "+kuljettuReitti.toString() +"\n kokonaispituus: "+this.reitinPituus;
     }
+
     @Override
     public int compareTo(Reitti reitti){
         if (this.reitinPituus<reitti.reitinPituus){

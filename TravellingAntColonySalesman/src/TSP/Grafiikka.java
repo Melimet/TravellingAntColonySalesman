@@ -1,38 +1,38 @@
 package TSP;
-import javafx.animation.PathTransition;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import java.util.ArrayList;
-import java.util.List;
-import javafx.application.Application;
+import java.util.Timer;
+
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Path;
 import javafx.stage.Stage;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Font;
-import javafx.stage.Stage;
+
 
 public class Grafiikka extends Application {
-    Canvas piirtoAlusta = new Canvas(650,650);
-    GraphicsContext piirturi = piirtoAlusta.getGraphicsContext2D();
-    BorderPane asettelu = new BorderPane((piirtoAlusta));
-    Scene kartta = new Scene(asettelu);
+
+    private Canvas piirtoAlusta = new Canvas(650,650);
+    private GraphicsContext piirturi = piirtoAlusta.getGraphicsContext2D();
+    private BorderPane asettelu = new BorderPane((piirtoAlusta));
+    private Scene kartta = new Scene(asettelu);
+    private ArrayList<Double> minJaMax = new ArrayList();
+    private Ohjelma simulaatio = null;
+    private Boolean nappiaPainettu = false;
+    private double lyhimmanReitinPituus = 999999999;
 
     @Override
     public void start(Stage ikkuna){
         GridPane ruudukko = new GridPane();
 
-
+        //Luodaan parametreille omat nodet
         Label maxKierrokset = new Label("Maksimikierrokset");
         ruudukko.add(maxKierrokset,0,0);
         TextField maxKierroksetTX = new TextField("300");
@@ -82,22 +82,77 @@ public class Grafiikka extends Application {
         ruudukko.add(tiedostoNimi,0,9);
         TextField tiedostoNimiTX = new TextField("WesternSahara.txt");
         ruudukko.add(tiedostoNimiTX,1,9);
+
         ruudukko.setVgap(5);
         ruudukko.setPadding(new Insets(10,20,20,20));
 
-        Button nappi = new Button("Käynnistä simulaatio"); //nappia painaessa käynnistetään ohjelma-olio
-        nappi.setOnAction((event) -> {
-        Ohjelma ohjelma = new Ohjelma(tiedostoNimiTX.getText(),Integer.parseInt(maxKierroksetTX.getText()),
-                Integer.parseInt(muuraHaistenMaaraTX.getText()), Double.parseDouble(feromoninAlkuMaaraTX.getText()),
-                Double.parseDouble(pureRandomTX.getText()), Double.parseDouble(alphaTX.getText()),
-                Double.parseDouble(betaTX.getText()), Double.parseDouble(feromoninLisaysMaaraTX.getText()),
-                Double.parseDouble(feromoninHaihtumisKerroinTX.getText()), Double.parseDouble(minimiFeromoninKerroinTX.getText()),this);
 
-        ikkuna.setScene(kartta);
-        ohjelma.simulaatio();
+        Timer timer = new Timer();
+
+        new AnimationTimer(){
+            long edellinen =0;
+
+            @Override
+            public void handle(long nykyhetki){
+
+                if((nykyhetki - edellinen < 1000000000)){
+                    return;
+                }
+                if(nappiaPainettu && lyhimmanReitinPituus>simulaatio.getParasReitti().getReitinPituus()) {
+
+                    Reitti parasReitti = simulaatio.getParasReitti();
+                    lyhimmanReitinPituus=parasReitti.getReitinPituus();
+
+                    int edellinenX = parasReitti.getKaupungit().get(0).kaannaX(minJaMax); //Otetaan ensimmäisen kaupungin koordinaatit
+                    int edellinenY = parasReitti.getKaupungit().get(0).kaannaY(minJaMax);
+
+                    for (int i = 1; i < parasReitti.getListanKoko(); i++) {
+                        int x = parasReitti.getKaupungit().get(i).kaannaX(minJaMax);  //Hakee listalla järjestyksessä olevien kaupunkien koordinaatit
+                        int y = parasReitti.getKaupungit().get(i).kaannaY(minJaMax);
+
+                        piirturi.setStroke(Color.RED);
+                        piirturi.strokeLine(y,x,edellinenY,edellinenX);
+
+                        edellinenX = x;
+                        edellinenY = y;
+
+                    }
+                }
+                this.edellinen = nykyhetki;
+
+            }
+
+        }.start();
+
+
+        Button nappi = new Button("Käynnistä simulaatio"); //nappia painaessa käynnistetään ohjelma annetuilla parametreillä
+        nappi.setOnAction((event) -> {
+            Ohjelma ohjelma = new Ohjelma(tiedostoNimiTX.getText(),Integer.parseInt(maxKierroksetTX.getText()),
+                    Integer.parseInt(muuraHaistenMaaraTX.getText()), Double.parseDouble(feromoninAlkuMaaraTX.getText()),
+                    Double.parseDouble(pureRandomTX.getText()), Double.parseDouble(alphaTX.getText()),
+                    Double.parseDouble(betaTX.getText()), Double.parseDouble(feromoninLisaysMaaraTX.getText()),
+                    Double.parseDouble(feromoninHaihtumisKerroinTX.getText()), Double.parseDouble(minimiFeromoninKerroinTX.getText()));
+
+            ikkuna.setScene(kartta);
+            simulaatio=ohjelma;
+            nappiaPainettu = true;
+            minJaMax = ohjelma.getMinMaxLista();
+
+            for (int i = 0; i<ohjelma.getKaupunkienMaara(); i++){ //Piirtää kaupungit kartalle
+
+                int x = simulaatio.getKaupungit().get(i).kaannaX(minJaMax);
+                int y = simulaatio.getKaupungit().get(i).kaannaY(minJaMax);
+
+                piirturi.fillOval(y-5, x-5, 10, 10); //-5 koordinaateissa, jotta näyttää, että piste on viivan keskellä, eikä kulmassa
+            }
+
+            simulaatio.simulaatio();
         });
 
+
+
         ruudukko.add(nappi,1,10);
+
 
         Scene alkuTilanne = new Scene(ruudukko);
         ikkuna.setTitle("TSP");
@@ -105,28 +160,7 @@ public class Grafiikka extends Application {
         ikkuna.show();
 
     }
-    public void piirraKartta(Reitti parasReitti, ArrayList<Double> lista){
-        int edellinenX=parasReitti.getKaupungit().get(0).kaannaX(lista); //Otetaan ensimmäisen kaupungin koordinaatit
-        int edellinenY=parasReitti.getKaupungit().get(0).kaannaY(lista);
 
-        for(int i = 1;i<parasReitti.getListanKoko();i++){
-            int x = parasReitti.getKaupungit().get(i).kaannaX(lista);  //Hakee listalla järjestyksessä olevien kaupunkien koordinaatit
-            int y = parasReitti.getKaupungit().get(i).kaannaY(lista);
-            piirturi.fillRect(y,x,10,10);
-            Line viiva = new Line();
-            viiva.setStartX(y);
-            viiva.setStartY(x);
-            viiva.setEndX(edellinenY);
-            viiva.setEndY(edellinenX);
-            asettelu.getChildren().add(viiva);
-                        //piirturi.setStroke(Color.BLACK);
-                       // piirturi.moveTo(x,y);
-                       // piirturi.lineTo(edellinenX,edellinenY);
-
-            edellinenX=x;
-            edellinenY=y;
-        }
-    }
     public void kaynnista(){
         launch(Grafiikka.class);
     }
