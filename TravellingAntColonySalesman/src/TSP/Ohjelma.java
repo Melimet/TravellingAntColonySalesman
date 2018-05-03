@@ -19,12 +19,12 @@ public class Ohjelma {
     private double maksimiFeromoni;  //Feromonin yläraja kartalla
     private double minimiFeromoni; //Feromonin alaraja kartalla
     private double minimiFeromoniKerroin; // Kerroin, jolla feromonin alaraja määritetään
-
+    private Grafiikka grafiikka;
 
     public Ohjelma(String tiedostoNimi, int maksimiKierrokset, int muurahaistenMaara,
                    double feromoninAlkumaara, double pureRandom,
                    double alpha, double beta, double feromoninLisaysMaara,
-                   double feromoninHaihtumisKerroin, double minimiFeromoniKerroin){
+                   double feromoninHaihtumisKerroin, double minimiFeromoniKerroin,Grafiikka grafiikka){
 
         this.kaupungit= TiedostoLukija.lueTiedosto(tiedostoNimi);
         this.murkut=new ArrayList<>();
@@ -42,6 +42,7 @@ public class Ohjelma {
         this.minimiFeromoni=0.001;
         this.minimiFeromoniKerroin=minimiFeromoniKerroin;
         this.pienimmatJaSuurimmat=haePieninjaSuurin(); //indeksi 0 = pieninX, indeksi 1=suurinX, indeksi 2=pieninY, 3=suurinY
+        this.grafiikka=grafiikka;
     }
     public void simulaatio(){
 
@@ -57,7 +58,7 @@ public class Ohjelma {
             tyhjennaListat(); //Poistaa muurahaiset ja nykyisen kierroksen reitit
             lisaaFeromoni(this.feromoninLisaysMaara, kierrokset); //Lisää parhaimman muurahaisen kulkemalle reitille feromonia
             Collections.sort(this.parhaatReitit); //Järjestää parhaat reitit
-            System.out.println(kierrokset);
+            grafiikka.paivitaKartta(kierrokset);
         }
 
         Collections.reverse(this.parhaatReitit);
@@ -74,14 +75,14 @@ public class Ohjelma {
     }
     private void siirraMurkut(){ //Liikuttaa kaikki muurahaiset radan alusta loppuun
         for(int x=0;x<this.kaupungit.size();x++) {
-            for (int i = 0; i < this.murkut.size(); i++) {
-                this.murkut.get(i).liiku(this.kaupungit,this.pureRandom,this.alpha,this.beta);
+            for (Muurahainen murkku : this.murkut) {
+                murkku.liiku(this.kaupungit, this.pureRandom, this.alpha, this.beta);
             }
         }
     }
     private void lisaaValmiitReitit(){ //Lisää muurahaisten kulkemat reitit listaan
-        for (int i = 0; i < this.murkut.size(); i++) {
-            this.valmiitReitit.add(this.murkut.get(i).getValmisReitti());
+        for (Muurahainen murkku : this.murkut) {
+            this.valmiitReitit.add(murkku.getValmisReitti());
         }
 
     }
@@ -140,15 +141,14 @@ public class Ohjelma {
             }
         }
 
-        ArrayList<Double> palautettava = new ArrayList();
+        ArrayList<Double> palautettava = new ArrayList<>();
+
         palautettava.add(pieninX);
         palautettava.add(suurinX);
         palautettava.add(pieninY);
         palautettava.add(suurinY);
+
         return palautettava;
-    }
-    public int getKaupunkienMaara(){
-        return this.kaupungit.size();
     }
     public Reitti getParasReitti(){
         return this.parhaatReitit.get(0);
@@ -156,9 +156,5 @@ public class Ohjelma {
     public ArrayList<Double> getMinMaxLista(){
         return this.pienimmatJaSuurimmat;
     }
-    public ArrayList<Kaupunki> getKaupungit(){
-        return this.kaupungit;
-    }
-
 
 }
