@@ -15,9 +15,11 @@ public class Muurahainen {
     }
 
     public void liiku(ArrayList<Kaupunki> kaupungit, double pureRandom,double alpha, double beta){
+
         int indeksi;
         Random r = new Random();
         double summa =0; //Jos kaikissa kaupungeissa käyty, palaa ensimmäiseen kaupunkiin
+
         if (this.kuljettuReitti.getListanKoko() >= kaupungit.size()) {
             lisaaKaytyihin(kaupungit.get(0));
             return;

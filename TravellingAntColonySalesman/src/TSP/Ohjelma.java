@@ -120,8 +120,6 @@ public class Ohjelma {
         this.minimiFeromoni = this.maksimiFeromoni*this.minimiFeromoniKerroin;
     }
 
-
-
     private ArrayList<Double> haePieninjaSuurin() { //Liittyy kanvaksen skaalaukseen. Ottaa pienimmät ja suurimmat x y koordinaatit.
 
         double pieninX = kaupungit.get(0).getX();
@@ -132,11 +130,12 @@ public class Ohjelma {
         for (Kaupunki kaupunki : this.kaupungit) {
             if (kaupunki.getX() > pieninX) {
                 pieninX = kaupunki.getX();
-            }if (kaupunki.getX() < suurinX) {
+            }else if (kaupunki.getX() < suurinX) {
                 suurinX = kaupunki.getX();
+
             }if (kaupunki.getY() > pieninY) {
                 pieninY = kaupunki.getY();
-            }if (kaupunki.getY() < suurinY) {
+            }else if (kaupunki.getY() < suurinY) {
                 suurinY = kaupunki.getY();
             }
         }

@@ -30,7 +30,7 @@ public class Grafiikka extends Application {
     public void start(Stage ikkuna){
 
 
-        GridPane ruudukko = new GridPane();
+        GridPane ruudukko = new GridPane(); //Alkutilan ruudukko menee tähän
         Scene alkuTilanne = new Scene(ruudukko);
 
         //Luodaan parametreille omat nodet
@@ -116,7 +116,7 @@ public class Grafiikka extends Application {
 
         ruudukko.add(nappi,1,10);
 
-        Button reset = new Button("Reset");
+        Button reset = new Button("Reset"); //Reset nappi toiseen ikkunaan
         reset.setOnAction(event -> {
             this.lyhimmanReitinPituus=999999999;
             piirturi.clearRect(0,0,800,800);
