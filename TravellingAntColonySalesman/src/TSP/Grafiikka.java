@@ -31,6 +31,7 @@ public class Grafiikka extends Application {
 
 
         GridPane ruudukko = new GridPane();
+        Scene alkuTilanne = new Scene(ruudukko);
 
         //Luodaan parametreille omat nodet
         Label maxKierrokset = new Label("Maksimikierrokset");
@@ -115,13 +116,23 @@ public class Grafiikka extends Application {
 
         ruudukko.add(nappi,1,10);
 
+        Button reset = new Button("Reset");
+        reset.setOnAction(event -> {
+            this.lyhimmanReitinPituus=999999999;
+            piirturi.clearRect(0,0,800,800);
+            ikkuna.setScene(alkuTilanne);
+        });
 
-        Scene alkuTilanne = new Scene(ruudukko);
+        HBox hBox = new HBox();
+        hBox.getChildren().add(reset);
+        asettelu.setBottom(hBox);
+
         ikkuna.setTitle("TSP");
         ikkuna.setScene(alkuTilanne);
         ikkuna.show();
 
     }
+
 
     public void kaynnista(){
         launch(Grafiikka.class);
