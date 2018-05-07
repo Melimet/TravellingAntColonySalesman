@@ -1,7 +1,7 @@
 package TSP;
 
 import java.util.ArrayList;
-public class Reitti implements Comparable<Reitti>{
+public class Reitti implements Comparable<Reitti>{ //Sisältää vieraillut kaupungit järjestyksessä ja käteviä metodeja reitin hyödyntämiseen
     private ArrayList<Kaupunki> kuljettuReitti;
     private Double reitinPituus;
 

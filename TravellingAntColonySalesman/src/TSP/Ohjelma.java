@@ -52,10 +52,12 @@ public class Ohjelma {
             luoMurkut(); //Luo halutun määrän muurahaisia
             siirraMurkut(); //Muurahaiset kulkevat kartan läpi
             lisaaValmiitReitit(); //Lisää muurahaisten kulkemat reitit listaan
+
             Collections.sort(this.valmiitReitit); //Järjestää reitit parhausjärjestykseen
             this.parhaatReitit.add(this.valmiitReitit.get(0)); //Lisää yksittäisen kierroksen parhaan reitin
+
             laskeMinJaMax(); //Laskee Feromonin ylä- ja alarajan
-            tyhjennaListat(); //Poistaa muurahaiset ja nykyisen kierroksen reitit
+            tyhjennaListat(); //Poistaa muurahaiset, nykyisen kierroksen reitit ja haihduttaa feromonia
             lisaaFeromoni(this.feromoninLisaysMaara, kierrokset); //Lisää parhaimman muurahaisen kulkemalle reitille feromonia
             Collections.sort(this.parhaatReitit); //Järjestää parhaat reitit
             grafiikka.paivitaKartta(kierrokset);

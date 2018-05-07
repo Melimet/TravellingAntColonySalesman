@@ -14,7 +14,7 @@ public class Muurahainen {
         this.kuljettuReitti.lisaaKaytyihin(kaupunki);
     }
 
-    public void liiku(ArrayList<Kaupunki> kaupungit, double pureRandom,double alpha, double beta){
+    public void liiku(ArrayList<Kaupunki> kaupungit, double pureRandom, double alpha, double beta){
 
         int indeksi;
         Random r = new Random();
@@ -33,6 +33,7 @@ public class Muurahainen {
                     return;
                 }
             }
+            //Lähde laskulle: http://www.scholarpedia.org/article/Ant_colony_optimization, otsikon ConstructAntSolutions alla. Muuta ei sivulta ole lainattu.
 
         }else{
             for (Kaupunki kaupunki : kaupungit) { //Käy kaupungit läpi ja katsoo onko niissä vierailtu
