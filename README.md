@@ -1,6 +1,6 @@
 # TravellingAntColonySalesman
 
-This is a school project for my Object Oriented Programming course. The program attempts to find the optimal route for a user submitted text file. It utilizes Ant Colony Simulation in doing so. This project was ranked as best in class.
+This is a school project for my Object Oriented Programming course. The program attempts to find the optimal route for a user submitted text file. It utilises Ant Colony Simulation(minmax) in doing so. This project was ranked as best in class.
 
 Features
 
