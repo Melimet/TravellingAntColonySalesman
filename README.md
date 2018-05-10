@@ -13,7 +13,7 @@ Features
  
   -Window that draws the shortest route found
   
-  ![TSPCanvasImage](https://imgur.com/sxM2HOF)
+  ![img](https://i.imgur.com/sxM2HOF.png)
 
   
   
