@@ -11,7 +11,8 @@ Features
  
   -Window for setting parameters
  
-  -Window that draws the shortest route found
+  -Window that draws the shortest route found. The dots on the window are scaled, so it doesn't matter if the x and y coordinates range 
+  from 0 to 100 or from 3534 to 634256
   
   ![img](https://i.imgur.com/sxM2HOF.png)
 
