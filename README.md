@@ -1,6 +1,6 @@
 # TravellingAntColonySalesman
 
-This is a school project for my Object Oriented Programming course. The program attempts to find the optimal route for a user submitted text file. It utilises Ant Colony Simulation in solving the travelling salesman problem (TSP) (Dorigo & Gambardella 1997). This project was ranked as best in class.
+This is a school project for my Object Oriented Programming course. The program attempts to find the optimal route for a user submitted text file. It utilises Ant Colony Simulation in solving the travelling salesman problem (TSP) (Dorigo & Gambardella 1997). This project was ranked as best in class. **Disclaimer**: This solution is far from the fastest or the most elegant, but it was fun and suitably challenging to make. Also the source code is in Finnish, sorry about that.
 
 ## Features
 
