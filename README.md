@@ -2,7 +2,7 @@
 
 This is a school project for my Object Oriented Programming course. The program attempts to find the optimal route for a user submitted text file. It utilises Ant Colony Simulation in solving the travelling salesman problem (TSP) (Dorigo & Gambardella 1997). This project was ranked as best in class.
 
-Features
+## Features
 
   -Reads .txt files. The format is "name x y" and each city is on it's own line. Where name defines the city, and x and y are coordinates   defining the location of the cities in 2-dimensional space.
   
@@ -17,7 +17,7 @@ Features
   ![img](https://i.imgur.com/sxM2HOF.png)
 
   
-References
+## References
 
 Dorigo, M. & Gambardella, L. M. 1997. Ant colony system: a cooperative learning approach to the traveling salesman problem.  IEEE Transactions on Evolutionary Computation, 1(1), 53-66.).
 
